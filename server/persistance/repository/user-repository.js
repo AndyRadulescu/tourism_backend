@@ -42,4 +42,24 @@ module.exports = class UserRepository {
             throw "error: User not found";
         }
     }
+
+    async getLoginUser() {
+        let loginUser = await User.findOne({
+            // attributes: ['password'],
+            where: {
+                username: this.userInfo.username
+            }
+        });
+        if (loginUser) {
+            let match = await bcrypt.compare(this.userInfo.password, loginUser.password);
+            if (match) {
+                return loginUser;
+            } else {
+                throw "Password hash mismatch";
+            }
+        } else {
+            throw "User not found";
+        }
+
+    }
 };

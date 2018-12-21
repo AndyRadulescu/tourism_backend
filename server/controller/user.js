@@ -65,3 +65,19 @@ exports.syncUser = ((req, res) => {
     //to do the response
 });
 
+exports.loginUser = (async (req, res) => {
+    // console.log(req.body);
+    let userRepo = new UserRepository(req.body);
+    try {
+        let userResponse = await userRepo.getLoginUser();
+        console.log(userResponse);
+        if (userResponse) {
+            return res.status(200).send(userResponse);
+        } else {
+            return res.status(404).send({message: "not found"})
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(404).send({message: "not found"})
+    }
+});
