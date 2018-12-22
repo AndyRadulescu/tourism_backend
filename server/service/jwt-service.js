@@ -44,4 +44,13 @@ module.exports = class JWTService {
             });
         }
     };
+
+    signJwtOnLogin(user) {
+        return jwt.sign({
+            id: user.id,
+            email: user.username,
+            updateDate: user.password,
+            expiresInMinutes: 1440 * 30
+        }, jwtPrivateKey);
+    }
 };

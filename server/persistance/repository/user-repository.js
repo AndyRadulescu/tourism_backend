@@ -51,11 +51,11 @@ module.exports = class UserRepository {
             }
         });
         if (loginUser) {
-            let match = await bcrypt.compare(this.userInfo.password, loginUser.password);
+            let match = bcrypt.compareSync(this.userInfo.password, loginUser.password);
             if (match) {
                 return loginUser;
             } else {
-                throw "Password hash mismatch";
+                throw new Error("Password hash mismatch");
             }
         } else {
             throw "User not found";
