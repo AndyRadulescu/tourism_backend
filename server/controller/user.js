@@ -11,14 +11,15 @@ exports.getAllUsers = ((req, res) => {
     });
 });
 
-exports.insertUser = ((req, res) => {
+exports.insertUser = (async (req, res) => {
     console.log(req.body);
     const repo = new UserRepository(req.body);
-    const success = repo.registerUser();
-    if (success) {
+    try {
+        await repo.registerUser();
         return res.status(200).send({success: true});
+    } catch (e) {
+        return res.status(403).send({success: e.message});
     }
-    return res.status(401).send({success: false});
 });
 
 exports.syncUser = ((req, res) => {
@@ -33,7 +34,9 @@ exports.loginUser = (async (req, res) => {
         let userResponse = await userRepo.getLoginUser();
         console.log(userResponse);
         let jwtService = new JwtService();
-        return res.status(200).send(jwtService.signJwtOnLogin(userResponse));
+        let jwtToken = jwtService.signJwtOnLogin(userResponse);
+        await userRepo.updateToken(jwtToken);
+        return res.status(200).send(jwtToken);
     } catch (err) {
         console.log(err);
         return res.status(404).send({message: "not found"})

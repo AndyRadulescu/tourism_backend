@@ -24,10 +24,8 @@ module.exports = class UserRepository {
                 username: this.userInfo.username,
                 password: UserRepository._passwordHashing(this.userInfo.password)
             });
-            return {success: true};
         } catch (err) {
-            console.log(err);
-            return {success: false}
+            throw new Error('User already exists');
         }
     }
 
@@ -44,12 +42,15 @@ module.exports = class UserRepository {
     }
 
     async getLoginUser() {
-        let loginUser = await User.findOne({
-            // attributes: ['password'],
-            where: {
-                username: this.userInfo.username
-            }
-        });
+        try {
+            var loginUser = await User.findOne({
+                where: {
+                    username: this.userInfo.username
+                }
+            });
+        } catch (e) {
+            throw new Error("User not found");
+        }
         if (loginUser) {
             let match = bcrypt.compareSync(this.userInfo.password, loginUser.password);
             if (match) {
@@ -60,6 +61,12 @@ module.exports = class UserRepository {
         } else {
             throw "User not found";
         }
+    }
 
+    async updateToken(token) {
+        await User.update({token: token}, {
+            where:
+                {username: this.userInfo.username}
+        });
     }
 };

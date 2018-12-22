@@ -20,11 +20,9 @@ module.exports = class JWTService {
 
             let userRepo = new UserRepository();
             try {
-                let user = userRepo.findOneUser(decoded);
-                let date = new Date(decoded.updateDate);
-                if (user.updatedAt.getTime() === date.getTime()) {
+                let user = await userRepo.findOneUser(decoded);
+                if (user.username === decoded.username && user.password === decoded.password) {
                     res.status(200).send({
-                        // token:
                         message: 'Authorized'
                     });
                 } else {
@@ -49,7 +47,7 @@ module.exports = class JWTService {
         return jwt.sign({
             id: user.id,
             email: user.username,
-            updateDate: user.password,
+            password: user.password,
             expiresInMinutes: 1440 * 30
         }, jwtPrivateKey);
     }
