@@ -7,8 +7,9 @@ module.exports = class JWTService {
 
     async verifyTokenIntegrity(token, res) {
         if (token) {
+            let decoded;
             try {
-                var decoded = jwt.verify(token, jwtPrivateKey);
+                decoded = jwt.verify(token, jwtPrivateKey);
             } catch (err) {
                 // console.log(err);
                 console.log('malformed');
@@ -18,9 +19,10 @@ module.exports = class JWTService {
             }
             console.log(decoded);
 
-            let userRepo = new UserRepository();
+            let userRepo = new UserRepository(decoded);
             try {
-                let user = await userRepo.findOneUser(decoded);
+                let user = await userRepo.findOneUser();
+                console.log(user);
                 if (user.username === decoded.username && user.password === decoded.password) {
                     res.status(200).send({
                         message: 'Authorized'
@@ -46,7 +48,7 @@ module.exports = class JWTService {
     signJwtOnLogin(user) {
         return jwt.sign({
             id: user.id,
-            email: user.username,
+            username: user.username,
             password: user.password,
             expiresInMinutes: 1440 * 30
         }, jwtPrivateKey);

@@ -29,10 +29,10 @@ module.exports = class UserRepository {
         }
     }
 
-    async findOneUser(decoded) {
+    async findOneUser() {
         try {
             return await User.findOne({
-                where: {id: decoded.id}
+                where: {id: this.userInfo.id}
                 , include: [{all: true}]
             });
         } catch (err) {
@@ -42,8 +42,10 @@ module.exports = class UserRepository {
     }
 
     async getLoginUser() {
+        let loginUser;
+        console.log(this.userInfo.username);
         try {
-            var loginUser = await User.findOne({
+            loginUser = await User.findOne({
                 where: {
                     username: this.userInfo.username
                 }
@@ -51,6 +53,7 @@ module.exports = class UserRepository {
         } catch (e) {
             throw new Error("User not found");
         }
+        console.log(loginUser);
         if (loginUser) {
             let match = bcrypt.compareSync(this.userInfo.password, loginUser.password);
             if (match) {
@@ -59,14 +62,7 @@ module.exports = class UserRepository {
                 throw new Error("Password hash mismatch");
             }
         } else {
-            throw "User not found";
+            throw new Error("User not found");
         }
-    }
-
-    async updateToken(token) {
-        await User.update({token: token}, {
-            where:
-                {username: this.userInfo.username}
-        });
     }
 };

@@ -24,8 +24,7 @@ exports.insertUser = (async (req, res) => {
 
 exports.syncUser = ((req, res) => {
     let jwtService = new JwtService();
-    let response = jwtService.verifyTokenIntegrity(req.headers.authorization, res);
-    return response;
+    return jwtService.verifyTokenIntegrity(req.headers.authorization, res);
 });
 
 exports.loginUser = (async (req, res) => {
@@ -35,10 +34,9 @@ exports.loginUser = (async (req, res) => {
         console.log(userResponse);
         let jwtService = new JwtService();
         let jwtToken = jwtService.signJwtOnLogin(userResponse);
-        await userRepo.updateToken(jwtToken);
         return res.status(200).send(jwtToken);
     } catch (err) {
         console.log(err);
-        return res.status(404).send({message: "not found"})
+        return res.status(404).send({message: err.message})
     }
 });
