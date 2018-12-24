@@ -18,6 +18,7 @@ exports.insertUser = (async (req, res) => {
         await repo.registerUser();
         return res.status(200).send({success: true});
     } catch (e) {
+        console.log(e.message);
         return res.status(403).send({success: e.message});
     }
 });
@@ -28,13 +29,14 @@ exports.syncUser = ((req, res) => {
 });
 
 exports.loginUser = (async (req, res) => {
+    console.log(req.body);
     let userRepo = new UserRepository(req.body);
     try {
         let userResponse = await userRepo.getLoginUser();
         console.log(userResponse);
         let jwtService = new JwtService();
         let jwtToken = jwtService.signJwtOnLogin(userResponse);
-        return res.status(200).send(jwtToken);
+        return res.status(200).send({token: jwtToken});
     } catch (err) {
         console.log(err);
         return res.status(404).send({message: err.message})
