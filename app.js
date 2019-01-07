@@ -16,9 +16,11 @@ const corsOptions = {
 //rest
 const index = require('./server/rest/index');
 const user = require('./server/rest/user');
+const hotel = require('./server/rest/hotel');
 
 app.use('/api', cors(corsOptions), index);
 app.use('/api/user', cors(corsOptions), user);
+app.use('/api/hotel', cors(corsOptions), hotel);
 
 app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to the beginning of nothingness.',
