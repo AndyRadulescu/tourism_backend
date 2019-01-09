@@ -1,0 +1,6 @@
+INSERT INTO public."user" (id, name, email, phone, username, password) VALUES (21, 'Andy Radulescu', 'radulescu.eduard.andrei@gmail.com', '735747637', 'andy', '$2b$10$PX1th6GlJ/ZjBXdCfgPWCOrKYBCUVyRnHux6JTzAEAmPvXFa1BzTO');
+INSERT INTO public."user" (id, name, email, phone, username, password) VALUES (23, 'andy', 'eafsd@fasd.com', '735747637', 'fadsfasd', '$2b$10$qwUFtRgSvg3i1iUy9tx3YuiUb9TqG3lW433pLC5na9HY5VAUihAdG');
+INSERT INTO public."user" (id, name, email, phone, username, password) VALUES (25, 'adsfadsf', 'fasdfasd', 'fadsfdas', 'asdfasd', '$2b$10$YFREqhq8j6C0FTZdz2wDB.b67CbwnGU/ph0Ry0Ca9bOD.jl1Eeu/u');
+INSERT INTO public."user" (id, name, email, phone, username, password) VALUES (27, 'fasdfasd', 'fadsfsadf', 'dasfasd', 'fasdfasd', '$2b$10$V7jxsCUSiQMgUweq0yHReeExNv1lt6IDasV0CyUlGqUtfpCUw3Gvm');
+INSERT INTO public."user" (id, name, email, phone, username, password) VALUES (28, 'dfassdaf', 'fasdfsadf@fasdfsad.com', '735747637', 'sadfdas', '$2b$10$KcCRD/SIAkzLRBJwW3wqJeHbdTRvx5bHRYcFF/UGUMwsz0.5Tgrui');
+INSERT INTO public."user" (id, name, email, phone, username, password) VALUES (30, 'andu', 'anduradulescu@gmail.com', '35214612465132', 'aadevaratu', '$2b$10$ydysFVjK0rOdKU90HHU.t.uzoe3pzFZWru2Y5lS0LGuRaL8zCQEdG');

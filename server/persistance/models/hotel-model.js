@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         email: DataTypes.STRING,
         country: DataTypes.STRING,
         city: DataTypes.STRING,
-        street_address: DataTypes.STRING
+        street_address: DataTypes.STRING,
+        image_url: DataTypes.STRING
     }, {
         tableName: 'hotel',
         timestamps: false,
