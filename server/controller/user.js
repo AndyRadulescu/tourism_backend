@@ -23,9 +23,15 @@ exports.insertUser = (async (req, res) => {
     }
 });
 
-exports.syncUser = ((req, res) => {
+exports.syncUser = (async (req, res) => {
     let jwtService = new JwtService();
-    return jwtService.verifyTokenIntegrity(req.headers.authorization, res);
+    try {
+        return await jwtService.verifyTokenIntegrity(req.headers.authorization, res);
+    } catch (e) {
+        if (e.error === "UnAuthorized") {
+            return res.status(401).send(e);
+        }
+    }
 });
 
 exports.loginUser = (async (req, res) => {
@@ -40,5 +46,27 @@ exports.loginUser = (async (req, res) => {
     } catch (err) {
         console.log(err);
         return res.status(404).send({message: err.message})
+    }
+});
+
+exports.updateRooms = (async (req, res) => {
+    console.log(req.body);
+    console.log(req.headers.authorization);
+
+    let jwtService = new JwtService();
+    try {
+        const user = await jwtService.verifyTokenIntegrity(req.headers.authorization, res);
+        const userRepo = new UserRepository({user: user, rooms: req.body.rooms});
+        await userRepo.updateUserRooms();
+
+        return res.status(200).send({rooms: req.body, user: user});
+    } catch (e) {
+        console.log(e);
+        if (e.error === 'UnAuthorized') {
+            return res.status(401).send(e);
+        } else if (e.error === 'database error') {
+            return res.status(404).send(e);
+        }
+
     }
 });

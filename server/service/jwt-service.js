@@ -11,11 +11,10 @@ module.exports = class JWTService {
             try {
                 decoded = jwt.verify(token, jwtPrivateKey);
             } catch (err) {
-                // console.log(err);
                 console.log('malformed');
-                return res.status(401).send({
-                    message: 'UnAuthorized'
-                });
+                throw  {
+                    error: 'UnAuthorized'
+                };
             }
             console.log(decoded);
 
@@ -24,24 +23,22 @@ module.exports = class JWTService {
                 let user = await userRepo.findOneUser();
                 console.log(user);
                 if (user.username === decoded.username && user.password === decoded.password) {
-                    res.status(200).send({
-                        message: 'Authorized'
-                    });
+                    return user;
                 } else {
-                    return res.status(401).send({
-                        message: 'UnAuthorized'
-                    });
+                    throw {
+                        error: 'UnAuthorized'
+                    };
                 }
             } catch (err) {
                 console.log(error);
-                return res.status(401).send({
-                    message: 'UnAuthorized'
-                });
+                throw  {
+                    error: 'UnAuthorized'
+                };
             }
         } else {
-            res.status(401).send({
-                message: 'UnAuthorized'
-            });
+            throw {
+                error: 'UnAuthorized'
+            };
         }
     };
 

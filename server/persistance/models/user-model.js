@@ -17,9 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     user.associate = (models) => {
-        // user.hasMany(models.pizza, {
-        //     foreignKey: 'user_uuid'
-        // });
+        user.belongsToMany(models.room, {
+            through: {
+                model: models.userRoom,
+                unique: false,
+            }, foreignKey: 'id_user', onDelete: 'CASCADE'
+        });
     };
 
     return user;

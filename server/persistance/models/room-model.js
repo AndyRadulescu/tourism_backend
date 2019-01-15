@@ -20,6 +20,13 @@ module.exports = (sequelize, DataTypes) => {
         room.belongsTo(models.hotel, {
             foreignKey: 'hotel_id'
         });
+
+        room.belongsToMany(models.user, {
+            through: {
+                model: models.userRoom,
+                unique: false,
+            }, foreignKey: 'id_room', onDelete: 'CASCADE'
+        });
     };
     return room;
 };

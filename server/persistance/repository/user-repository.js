@@ -1,4 +1,7 @@
 const User = require('../models').user;
+const UserRoom = require('../models').userRoom;
+const db = require("../models/index");
+
 const bcrypt = require('bcrypt');
 
 module.exports = class UserRepository {
@@ -63,6 +66,21 @@ module.exports = class UserRepository {
             }
         } else {
             throw new Error("User not found");
+        }
+    }
+
+    async updateUserRooms() {
+        try {
+            return await db.sequelize.transaction(async () => {
+                this.userInfo.rooms.forEach(async (id) => {
+                    await UserRoom.create({
+                        id_user: this.userInfo.user.id,
+                        id_room: id
+                    });
+                });
+            });
+        } catch (err) {
+            throw {error: 'database error'};
         }
     }
 };
