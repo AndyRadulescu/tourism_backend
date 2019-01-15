@@ -26,7 +26,7 @@ exports.insertUser = (async (req, res) => {
 exports.syncUser = (async (req, res) => {
     let jwtService = new JwtService();
     try {
-        return await jwtService.verifyTokenIntegrity(req.headers.authorization, res);
+        return res.send(await jwtService.verifyTokenIntegrity(req.headers.authorization));
     } catch (e) {
         if (e.error === "UnAuthorized") {
             return res.status(401).send(e);

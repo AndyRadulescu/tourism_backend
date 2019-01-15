@@ -5,7 +5,7 @@ const jwtPrivateKey = "cefvvaesjbdsafdas";
 
 module.exports = class JWTService {
 
-    async verifyTokenIntegrity(token, res) {
+    async verifyTokenIntegrity(token) {
         if (token) {
             let decoded;
             try {
@@ -21,7 +21,6 @@ module.exports = class JWTService {
             let userRepo = new UserRepository(decoded);
             try {
                 let user = await userRepo.findOneUser();
-                console.log(user);
                 if (user.username === decoded.username && user.password === decoded.password) {
                     return user;
                 } else {
