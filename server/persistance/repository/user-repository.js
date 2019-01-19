@@ -1,5 +1,7 @@
 const User = require('../models').user;
 const UserRoom = require('../models').userRoom;
+const Room = require('../models').room;
+
 const db = require("../models/index");
 
 const bcrypt = require('bcrypt');
@@ -73,10 +75,12 @@ module.exports = class UserRepository {
         try {
             return await db.sequelize.transaction(async () => {
                 this.userInfo.rooms.forEach(async (id) => {
-                    await UserRoom.create({
-                        id_user: this.userInfo.user.id,
-                        id_room: id
-                    });
+                    const room = await Room.findById(id);
+                    await room.update({user_id: this.userInfo.user.id});
+                    // await UserRoom.create({
+                    //     id_user: this.userInfo.user.id,
+                    //     id_room: id
+                    // });
                 });
             });
         } catch (err) {

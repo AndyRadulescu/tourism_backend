@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
         description: DataTypes.STRING,
         start_date: DataTypes.DATE,
         end_date: DataTypes.DATE,
-        hotel_id: DataTypes.UUID
+        hotel_id: DataTypes.UUID,
+        user_id: DataTypes.INTEGER
     }, {
         tableName: 'room',
         timestamps: false,
@@ -21,11 +22,8 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'hotel_id'
         });
 
-        room.belongsToMany(models.user, {
-            through: {
-                model: models.userRoom,
-                unique: false,
-            }, foreignKey: 'id_room', onDelete: 'CASCADE'
+        room.belongsTo(models.user, {
+            foreignKey: 'user_id'
         });
     };
     return room;

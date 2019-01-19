@@ -18,6 +18,7 @@ module.exports = class RoomRepository {
                     end_date: {
                         $lte: dateInterval.endDate
                     },
+                    user_id: null,
                     $country$: this.roomInfo.country
                 }
             });

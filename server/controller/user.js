@@ -58,8 +58,7 @@ exports.updateRooms = (async (req, res) => {
         const user = await jwtService.verifyTokenIntegrity(req.headers.authorization, res);
         const userRepo = new UserRepository({user: user, rooms: req.body.rooms});
         await userRepo.updateUserRooms();
-
-        return res.status(200).send({rooms: req.body, user: user});
+        return res.status(200).send({rooms: req.body});
     } catch (e) {
         console.log(e);
         if (e.error === 'UnAuthorized') {
@@ -67,6 +66,5 @@ exports.updateRooms = (async (req, res) => {
         } else if (e.error === 'database error') {
             return res.status(404).send(e);
         }
-
     }
 });
