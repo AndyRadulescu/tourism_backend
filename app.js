@@ -20,7 +20,7 @@ const room = require('./server/rest/room');
 
 app.use('/api', cors(corsOptions), index);
 app.use('/api/user', cors(corsOptions), user);
-app.use('/api/hotel', cors(corsOptions), room);
+app.use('/api/room', cors(corsOptions), room);
 
 app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to the beginning of nothingness.',

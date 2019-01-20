@@ -34,4 +34,18 @@ module.exports = class RoomRepository {
             endDate: new Date(`${dateInterval.toDate.year}-${dateInterval.toDate.month}-${dateInterval.toDate.day}`)
         }
     }
+
+    async getRoomsByUserId() {
+        try {
+            return await Room.findAll({
+                include: [Hotel],
+                where: {
+                    user_id: this.roomInfo,
+                }
+            });
+        } catch (e) {
+            console.log(e);
+            throw new Error("error: could not find anything");
+        }
+    }
 };
