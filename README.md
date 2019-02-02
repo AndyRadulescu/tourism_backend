@@ -9,8 +9,8 @@ The next comands will create the database and grand all privileges. **Do not run
 ```sh
 docker run --name postgresdb -p 32768:5432 -d postgres
 docker container update --restart=always postgresdb
-docker exec -it postgresdb psql --username postgres -c "CREATE DATABASE devdb OWNER postgres;"
-docker exec -it postgresdb psql --username postgres -c "GRANT ALL PRIVILEGES ON DATABASE devdb TO postgres;"
+docker exec -it postgresdb psql --username postgres -c "CREATE DATABASE tourism OWNER postgres;"
+docker exec -it postgresdb psql --username postgres -c "GRANT ALL PRIVILEGES ON DATABASE tourism TO postgres;"
 docker exec -it postgresdb psql --username postgres -c "DROP DATABASE devdb"
 ```
 
