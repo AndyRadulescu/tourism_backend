@@ -1,7 +1,7 @@
 const User = require('../persistance/models').user;
 const UserRepository = require('../persistance/repository/user-repository');
 const JwtService = require('../service/jwt-service');
-
+const MailSender = require('../service/mail-sender');
 
 exports.getAllUsers = ((req, res) => {
     User.findAll({
@@ -58,6 +58,7 @@ exports.updateRooms = (async (req, res) => {
         const user = await jwtService.verifyTokenIntegrity(req.headers.authorization, res);
         const userRepo = new UserRepository({user: user, rooms: req.body.rooms});
         await userRepo.updateUserRooms();
+        new MailSender(user, req.body.rooms).sendEmail();
         return res.status(200).send({rooms: req.body});
     } catch (e) {
         console.log(e);

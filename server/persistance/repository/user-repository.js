@@ -77,10 +77,6 @@ module.exports = class UserRepository {
                 this.userInfo.rooms.forEach(async (id) => {
                     const room = await Room.findById(id);
                     await room.update({user_id: this.userInfo.user.id});
-                    // await UserRoom.create({
-                    //     id_user: this.userInfo.user.id,
-                    //     id_room: id
-                    // });
                 });
             });
         } catch (err) {
